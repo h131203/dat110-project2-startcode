@@ -112,8 +112,13 @@ public class Dispatcher extends Stopable {
 
 		// TODO: create the topic in the broker storage
 		// the topic is contained in the create topic message
-
-		throw new UnsupportedOperationException(TODO.method());
+		
+		//CreateTopicMsg message = msg;
+		
+		storage.createTopic(msg.getTopic());
+		
+		
+		//throw new UnsupportedOperationException(TODO.method());
 
 	}
 
@@ -124,7 +129,9 @@ public class Dispatcher extends Stopable {
 		// TODO: delete the topic from the broker storage
 		// the topic is contained in the delete topic message
 		
-		throw new UnsupportedOperationException(TODO.method());
+		storage.deleteTopic(msg.getTopic());
+		
+		//throw new UnsupportedOperationException(TODO.method());
 	}
 
 	public void onSubscribe(SubscribeMsg msg) {
@@ -134,7 +141,9 @@ public class Dispatcher extends Stopable {
 		// TODO: subscribe user to the topic
 		// user and topic is contained in the subscribe message
 		
-		throw new UnsupportedOperationException(TODO.method());
+		storage.addSubscriber(msg.getUser(), msg.getTopic());
+		
+		//throw new UnsupportedOperationException(TODO.method());
 
 	}
 
@@ -145,7 +154,9 @@ public class Dispatcher extends Stopable {
 		// TODO: unsubscribe user to the topic
 		// user and topic is contained in the unsubscribe message
 		
-		throw new UnsupportedOperationException(TODO.method());
+		storage.removeSubscriber(msg.getUser(), msg.getTopic());
+		
+		//throw new UnsupportedOperationException(TODO.method());
 	}
 
 	public void onPublish(PublishMsg msg) {
@@ -156,7 +167,15 @@ public class Dispatcher extends Stopable {
 		// topic and message is contained in the subscribe message
 		// messages must be sent using the corresponding client session objects
 		
-		throw new UnsupportedOperationException(TODO.method());
+		//Set<String> subs = storage.getSubscribers(msg.getTopic()); //henter ut alle clients som er mapped som subs til denne topicen
+		
+		for (String subscribedUser: storage.getSubscribers(msg.getTopic())) { //string s= user
+			//sender meldingen til hver enkelt subscriber for den valgte topic
+			
+			storage.getSession(subscribedUser).send(msg);			//.send(message msg) i cliensession bruker MessageUtils.send(connection, message)
+		}
+		
+		//throw new UnsupportedOperationException(TODO.method());
 
 	}
 }

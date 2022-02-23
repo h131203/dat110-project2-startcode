@@ -55,7 +55,12 @@ public class Storage {
 		// TODO: add corresponding client session to the storage
 		// See ClientSession class
 		
-		throw new UnsupportedOperationException(TODO.method());
+		ClientSession session = new ClientSession(user, connection); // dette objektet skal inn i hashmappen av aktive sessions
+		
+		clients.put(user, session); //setter det inn i listen av aktive clients (hashmappet). Dvs den er nå registert som en aktiv session hos brokeren
+		
+		
+		//throw new UnsupportedOperationException(TODO.method());
 		
 	}
 
@@ -64,15 +69,23 @@ public class Storage {
 		// TODO: disconnet the client (user) 
 		// and remove client session for user from the storage
 		
-		throw new UnsupportedOperationException(TODO.method());
+		ClientSession session = clients.get(user);
+		
+		//disconneter og fjerner fra hashmappen med aktive sessions/brukere.
+		session.disconnect();
+		clients.remove(user, session);
+		
+		//throw new UnsupportedOperationException(TODO.method());
 		
 	}
 
 	public void createTopic(String topic) {
 
 		// TODO: create topic in the storage
+		Set<String> set = ConcurrentHashMap.newKeySet(); //nytt set med strings som lager plass til de users som subber på denne topic?
+		subscriptions.put(topic, set);
 
-		throw new UnsupportedOperationException(TODO.method());
+		//throw new UnsupportedOperationException(TODO.method());
 	
 	}
 
@@ -80,7 +93,9 @@ public class Storage {
 
 		// TODO: delete topic from the storage
 
-		throw new UnsupportedOperationException(TODO.method());
+		subscriptions.remove(topic);
+		
+		//throw new UnsupportedOperationException(TODO.method());
 		
 	}
 
@@ -88,14 +103,25 @@ public class Storage {
 
 		// TODO: add the user as subscriber to the topic
 		
-		throw new UnsupportedOperationException(TODO.method());
+		/**
+		 * henter ut topicen i hashmappet, og legger til useren i settet av string(users/subscribers) mappet til denne keyen (topic). key = topic, value = subscriber
+		 */
+		subscriptions.get(topic).add(user);
+		
+	
+		//throw new UnsupportedOperationException(TODO.method());
 		
 	}
 
 	public void removeSubscriber(String user, String topic) {
 
 		// TODO: remove the user as subscriber to the topic
+		/**
+		 * henter ut topic, og fjerne deretter brukeren fra settet som ligger som values på den topicen (value= en subscriber)
+		 */
+		
+		subscriptions.get(topic).remove(user);
 
-		throw new UnsupportedOperationException(TODO.method());
+		//throw new UnsupportedOperationException(TODO.method());
 	}
 }
