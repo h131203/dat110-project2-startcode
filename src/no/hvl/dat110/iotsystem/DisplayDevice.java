@@ -32,14 +32,15 @@ public class DisplayDevice {
 		
 		client.createTopic(topic); //lager topic. (temp-devicen sin topic må være den samme)
 		client.subscribe(topic); //subscriber til temperatur-topicen
-				
+		
+		//mottar meldinger på topicen den er subscribed på
 		for (int i=0; i<COUNT; i++) {
 			
 			msg = client.receive();
 		}
 		
 		
-		client.unsubscribe(topic);
+		client.unsubscribe(topic); //unsubcriber.. skulle gitt en melding (onUnsubscribe metoden sin log event?)
 		client.disconnect();
 		
 		// TODO - END
