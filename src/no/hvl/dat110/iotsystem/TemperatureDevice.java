@@ -20,11 +20,34 @@ public class TemperatureDevice {
 		// - publish the temperature(s)
 		// - disconnect from the broker
 
+		Client client = new Client("sensor", Common.BROKERHOST, Common.BROKERPORT); //oppretter en klient
+		client.connect(); //kobler til brokeren
+		
+		//ber temperatursensoren lese av temp og publisere dette 10 ganger, med 1 sek mellomrom.
+		for (int i=0; i< COUNT; i++) {
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			int temp = sn.read(); //henter temperatur
+			
+			client.publish("temperature", "DISPLAY: "+temp);
+			System.out.println("....READING:" + temp);
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+				
+		client.disconnect(); //kobler av igjen
+		
 		// TODO - end
 
 		System.out.println("Temperature device stopping ... ");
 
-		throw new UnsupportedOperationException(TODO.method());
-
+		
 	}
 }

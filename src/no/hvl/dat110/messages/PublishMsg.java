@@ -13,13 +13,13 @@ public class PublishMsg extends Message {
 	// as described in the project text
 	
 	private String topic;
-	private String msg;
+	private String message;
 	
 	
 	public PublishMsg(String user, String topic, String msg) {
 		super(MessageType.PUBLISH, user);
 		this.topic = topic;
-		this.msg = msg;
+		this.message = msg;
 	}
 
 	public String getTopic() {
@@ -30,16 +30,16 @@ public class PublishMsg extends Message {
 		this.topic = topic;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
 	}
 
 	public void setMsg(String msg) {
-		this.msg = msg;
+		this.message = msg;
 	}
 
 	@Override
 	public String toString() {
-		return "PublishMsg [topic=" + topic + ", msg=" + msg + ", toString()=" + super.toString() + "]";
+		return "PublishMsg [topic=" + topic + ", msg=" + message + ", toString()=" + super.toString() + "]";
 	}	
 }
